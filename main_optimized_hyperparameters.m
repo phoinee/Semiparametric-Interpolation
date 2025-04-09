@@ -1,7 +1,7 @@
 clear; clc;
 
 % flag = 1: true basis, flag = 2: wrong basis
-flag = 1;
+flag = 2;
 
 % nonlinear mass-spring-damper system parameters
 k1 = 1; k2 = 0.1; c1 = 1; c2 = -0.1; m = 1; 
@@ -62,7 +62,7 @@ RMSEIntp = sqrt((yTestIntp - yTrue)'*(yTestIntp - yTrue)/length(yTestIntp));
 % RMSE for kernel interpolation
 
 % semiparametric kernel interpolation
-[opt_params_semi, fval_semi] = fmincon(@(params) customObjFcn_Semi(params, xTrain, yTrain,Sig), init_param, [], [], [], [], 0.1*Sig*ones(size(init_param)), [], [], opts);
+[opt_params_semi, fval_semi] = fmincon(@(params) customObjFcn_Semi(params, xTrain, yTrain, Sig, flag), init_param, [], [], [], [], 0.1*Sig*ones(size(init_param)), [], [], opts);
 % hyperparameter optimization for semiparametric interpolation
 
 KK_semi = customKernel(xTrain,xTrain,opt_params_semi(1),opt_params_semi(2)) + Sig^2*eye(length(xTrain));
